@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('H/1 * * * *')
+    }
+
     environment {
         // 镜像名称：仓库名/应用名，按需修改
         IMAGE_NAME   = 'demo-java-app'
