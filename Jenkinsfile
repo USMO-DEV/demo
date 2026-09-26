@@ -39,7 +39,7 @@ pipeline {
     post {
         always {
             // 清理本次构建产生的镜像，避免磁盘堆积
-            sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true'
+            //sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true'
             cleanWs()
         }
         success {
