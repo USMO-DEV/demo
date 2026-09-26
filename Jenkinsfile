@@ -1,4 +1,4 @@
-# Jenkins 声明式流水线：构建 Docker 镜像并推送（可选）
+// Jenkins 声明式流水线：构建 Docker 镜像并推送（可选）
 pipeline {
     agent any
 
