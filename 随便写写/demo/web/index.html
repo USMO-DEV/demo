@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 48px 40px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      max-width: 420px; width: 90%;
+    }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    p.sub { opacity: 0.85; margin-bottom: 28px; }
+    input {
+      width: 100%; padding: 10px 14px; border-radius: 8px;
+      border: none; outline: none; font-size: 15px; margin-bottom: 14px;
+    }
+    button {
+      width: 100%; padding: 12px; border: none; border-radius: 8px;
+      background: #fff; color: #764ba2; font-size: 16px; font-weight: 600;
+      cursor: pointer; transition: transform .1s;
+    }
+    button:hover { transform: translateY(-1px); }
+    #result {
+      margin-top: 24px; padding: 14px; border-radius: 8px;
+      background: rgba(0, 0, 0, 0.2); font-size: 15px; min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Java Web Demo</h1>
+    <p class="sub">基于 JDK 内置 HttpServer，零依赖</p>
+    <input id="name" placeholder="输入你的名字..." />
+    <button onclick="sayHello()">调用 /api/hello</button>
+    <div id="result">等待请求...</div>
+  </div>
+  <script>
+    async function sayHello() {
+      const name = document.getElementById('name').value.trim();
+      const url = '/api/hello' + (name ? '?name=' + encodeURIComponent(name) : '');
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        document.getElementById('result').textContent =
+          '服务器返回: ' + JSON.stringify(data);
+      } catch (e) {
+        document.getElementById('result').textContent = '请求失败: ' + e;
+      }
+    }
+  </script>
+</body>
+</html>
