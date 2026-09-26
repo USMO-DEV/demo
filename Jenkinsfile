@@ -50,7 +50,7 @@ pipeline {
             echo "构建成功：${IMAGE_NAME}:${IMAGE_TAG}"
         }
         failure {
-            echo '构建失败，请查看日志99999'
+            echo '构建失败，请查看日志777777'
         }
     }
 }
