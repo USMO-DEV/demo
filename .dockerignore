@@ -1,7 +1,0 @@
-out/
-*.class
-.git/
-run.bat
-README.md
-frontend/node_modules/
-frontend/dist/
