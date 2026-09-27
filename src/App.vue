@@ -1,84 +1,91 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const time = ref('--:--:--')
-const status = ref('加载中...')
-let timer = null
-
-async function refreshTime() {
-  try {
-    const res = await fetch('/api/time')
-    const data = await res.json()
-    time.value = data.time
-    status.value = '已连接后端'
-  } catch (e) {
-    time.value = '请求失败'
-    status.value = '后端不可用'
-  }
-}
-
-onMounted(() => {
-  refreshTime()
-  timer = setInterval(refreshTime, 1000)
-})
-
-onUnmounted(() => clearInterval(timer))
+import ClockCard from './components/ClockCard.vue'
+import PetCard from './components/PetCard.vue'
+import TaskBoard from './components/TaskBoard.vue'
+import StatsPanel from './components/StatsPanel.vue'
 </script>
 
 <template>
-  <div class="page">
-    <div class="card">
-      <h1>你好，Vue 3 + Java</h1>
-      <p>前端 Vue 3（Vite 构建），后端 Java HttpServer</p>
-      <div class="time-box">{{ time }}</div>
-      <button @click="refreshTime">刷新服务器时间</button>
-      <div class="tip">数据来自后端接口 /api/time · {{ status }}</div>
-    </div>
+  <div class="sky">
+    <!-- 漂浮的云朵装饰 -->
+    <div class="cloud c1">☁️</div>
+    <div class="cloud c2">🎈</div>
+    <div class="cloud c3">☁️</div>
+    <div class="cloud c4">⭐</div>
+
+    <header class="hero">
+      <div class="hero-emoji anim-bounce">🏝️</div>
+      <h1>宠物小岛大冒险</h1>
+      <p class="slogan">喂宠物 · 做任务 · 升级打怪，前后端分离全家桶！</p>
+    </header>
+
+    <main class="grid">
+      <PetCard />
+      <ClockCard />
+      <StatsPanel />
+      <TaskBoard class="wide" />
+    </main>
+
+    <footer class="footer">
+      <span>🐱 Vue 3 前端</span>
+      <span>⚡ Java HttpServer 后端</span>
+      <span>🐳 Docker + Nginx + Jenkins 部署</span>
+    </footer>
   </div>
 </template>
 
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+<style scoped>
+.sky {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 20px 20px;
   min-height: 100vh;
+  position: relative;
 }
-.page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+
+/* 云朵 */
+.cloud {
+  position: fixed;
+  font-size: 56px;
+  opacity: 0.55;
+  pointer-events: none;
+  animation: floatX linear infinite;
+  z-index: 0;
 }
-.card {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 48px 56px;
+.c1 { top: 6%;  animation-duration: 55s; }
+.c2 { top: 18%; font-size: 40px; animation-duration: 70s; animation-delay: -30s; }
+.c3 { top: 55%; font-size: 44px; animation-duration: 60s; animation-delay: -15s; }
+.c4 { top: 75%; font-size: 36px; animation-duration: 80s; animation-delay: -50s; }
+
+/* 标题区 */
+.hero { text-align: center; margin-bottom: 32px; position: relative; z-index: 1; }
+.hero-emoji { font-size: 64px; }
+.hero h1 {
+  font-size: 2.4rem;
+  margin: 8px 0;
+  color: var(--ink);
+  text-shadow: 3px 3px 0 var(--yellow);
+}
+.slogan { font-size: 1rem; opacity: 0.75; }
+
+/* 布局 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+.wide { grid-column: 1 / -1; }
+
+.footer {
+  margin-top: 36px;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 0.85rem;
+  opacity: 0.6;
 }
-h1 { font-size: 2.2rem; margin-bottom: 12px; }
-p { opacity: 0.85; margin-bottom: 28px; }
-.time-box {
-  font-size: 3rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  margin-bottom: 28px;
-  font-variant-numeric: tabular-nums;
-}
-button {
-  padding: 12px 32px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  background: #fff;
-  color: #5a4fcf;
-  font-weight: 600;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); }
-.tip { margin-top: 20px; font-size: 0.85rem; opacity: 0.7; }
 </style>

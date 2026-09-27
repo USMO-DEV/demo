@@ -1,0 +1,136 @@
+/* ============ 卡通宠物岛 · 全局设计系统 ============ */
+:root {
+  --ink: #2b2b2b;
+  --paper: #fdf3e3;
+  --pink: #ff8fab;
+  --red: #ff6b6b;
+  --yellow: #ffd93d;
+  --green: #6bcb77;
+  --blue: #4d96ff;
+  --purple: #c084fc;
+  --cream: #fffdf5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Comic Sans MS", "Chalkboard SE", "Microsoft YaHei", sans-serif;
+  background: var(--paper);
+  background-image: radial-gradient(circle at 10% 20%, #ffe9a8 0%, transparent 30%),
+                    radial-gradient(circle at 90% 80%, #d4f0ff 0%, transparent 30%);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  border-radius: 24px;
+  box-shadow: 8px 8px 0 var(--ink);
+  padding: 24px;
+  position: relative;
+}
+
+.card h2 {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-block;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 9px 18px;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.btn:hover  { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px);  box-shadow: 1px 1px 0 var(--ink); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn.pink   { background: var(--pink); }
+.btn.yellow { background: var(--yellow); }
+.btn.green  { background: var(--green); }
+.btn.blue   { background: var(--blue); color: #fff; }
+.btn.red    { background: var(--red); color: #fff; }
+.btn.small  { padding: 5px 12px; font-size: 13px; border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); }
+
+/* ---------- 徽章 ---------- */
+.badge {
+  display: inline-block;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  background: #fff;
+}
+.b-green  { background: var(--green); }
+.b-yellow { background: var(--yellow); }
+.b-red    { background: var(--red); color: #fff; }
+.b-blue   { background: var(--blue); color: #fff; }
+
+/* ---------- 进度条 ---------- */
+.bar {
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  height: 20px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.bar-fill.f-green { background: repeating-linear-gradient(45deg, var(--green), var(--green) 10px, #57b562 10px, #57b562 20px); }
+.bar-fill.f-yellow { background: repeating-linear-gradient(45deg, var(--yellow), var(--yellow) 10px, #ffce1f 10px, #ffce1f 20px); }
+.bar-fill.f-pink { background: repeating-linear-gradient(45deg, var(--pink), var(--pink) 10px, #ff7ba1 10px, #ff7ba1 20px); }
+
+/* ---------- 输入框 ---------- */
+.input {
+  width: 100%;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  background: #fff;
+  outline: none;
+  box-shadow: inset 2px 2px 0 rgba(43, 43, 43, 0.08);
+}
+.input:focus { background: #fffbe0; }
+
+/* ---------- 动画 ---------- */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+@keyframes floatX {
+  from { transform: translateX(-15vw); }
+  to   { transform: translateX(115vw); }
+}
+@keyframes popIn {
+  0%   { transform: scale(0.6); opacity: 0; }
+  70%  { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.anim-bounce { animation: bounce 2s ease-in-out infinite; display: inline-block; }
+.anim-wiggle { animation: wiggle 1s ease-in-out infinite; display: inline-block; }
+.anim-pop    { animation: popIn 0.35s ease both; }
