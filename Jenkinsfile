@@ -8,6 +8,9 @@ pipeline {
         IMAGE_NAME   = 'demo-java-app'
         // 镜像标签：使用构建号 + 提交 ID
         IMAGE_TAG    = "${BUILD_NUMBER}-${env.GIT_COMMIT?.take(7) ?: 'local'}"
+        // 基础镜像仓库：使用服务器本地的私有仓库，构建时不访问外网
+        // （需先在服务器上启动 registry 并推入基础镜像；如需直连公网改回 docker.io/library）
+        BASE_REGISTRY = 'localhost:5000'
         // Docker 镜像仓库地址（如需推送，取消注释并修改）
         // REGISTRY    = 'registry.example.com'
         // CREDENTIALS = 'docker-registry-credentials-id'
@@ -23,7 +26,7 @@ pipeline {
         stage('构建镜像') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "--build-arg BASE_REGISTRY=${BASE_REGISTRY} .")
                     env.FULL_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
