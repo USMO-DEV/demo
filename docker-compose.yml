@@ -1,15 +1,14 @@
-# 前后端分离编排（引用镜像而非构建上下文，跨仓库可用）
-# 镜像来源：本地私有仓库 localhost:5000（由前后端各自的 Jenkins 流水线推入）
+# 前后端分离编排（引用本机镜像，由前后端各自的 Jenkins 流水线构建）
 # 使用：docker compose up -d
 services:
   backend:
-    image: localhost:5000/demo-java-api:latest
+    image: demo-java-api:latest
     restart: unless-stopped
     networks:
       - demo-net
 
   frontend:
-    image: localhost:5000/demo-web:latest
+    image: demo-web:latest
     ports:
       - "8888:80"
     depends_on:
