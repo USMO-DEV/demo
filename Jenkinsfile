@@ -15,7 +15,7 @@ pipeline {
     }
 
     stages {
-        stage('检出代码') {
+        stage('检查代码') {
             steps {
                 checkout scm
             }
@@ -57,7 +57,7 @@ pipeline {
                     '''
 
                     // 4. 健康检查（顺带验证到后端的反代链路；后端未部署时会失败）
-                    sh 'sleep 3'
+                    sh 'sleep 1'
                     sh 'curl -sf http://localhost:8888/api/time && echo " <- 前后端链路正常"'
                 }
             }
