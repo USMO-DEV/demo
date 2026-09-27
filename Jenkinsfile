@@ -30,8 +30,31 @@ pipeline {
         stage('构建镜像') {
             steps {
                 script {
-                    def image = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                     env.FULL_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('部署运行') {
+            steps {
+                script {
+                    // 1. 停止并删除旧容器
+                    sh 'docker rm -f demo || true'
+
+                    // 2. 删除上一次构建留下的旧镜像（保留本次新镜像）
+                    sh '''
+                        docker images --format "{{.Repository}}:{{.Tag}}" ${IMAGE_NAME} \
+                          | grep -v "${IMAGE_TAG}" \
+                          | xargs -r docker rmi -f || true
+                    '''
+
+                    // 3. 运行新容器：宿主机 8888 -> 容器 8080（8080 已被 Jenkins 占用）
+                    sh 'docker run -d --name demo -p 8888:8080 --restart unless-stopped ${FULL_IMAGE}'
+
+                    // 4. 健康检查
+                    sh 'sleep 3'
+                    sh 'curl -sf http://localhost:8888/api/time && echo " <- 服务正常"'
                 }
             }
         }
