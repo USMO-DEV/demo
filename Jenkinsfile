@@ -50,11 +50,11 @@ pipeline {
                     '''
 
                     // 3. 运行新容器：宿主机 8888 -> 容器 8080（8080 已被 Jenkins 占用）
-                    sh 'docker run -d --name demo -p 8888:8080 --restart unless-stopped ${FULL_IMAGE}'
+                    sh 'docker run -d --name demo -p 80:8080 --restart unless-stopped ${FULL_IMAGE}'
 
                     // 4. 健康检查
                     sh 'sleep 3'
-                    sh 'curl -sf http://localhost:8888/api/time && echo " <- 服务正常"'
+                    sh 'curl -sf http://localhost:80/api/time && echo " <- 服务正常"'
                 }
             }
         }
