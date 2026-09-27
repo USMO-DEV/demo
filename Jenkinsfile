@@ -20,13 +20,6 @@ pipeline {
             }
         }
 
-        stage('编译验证') {
-            steps {
-                sh 'javac -version || true'
-                echo "JDK 检查完成"
-            }
-        }
-
         stage('构建镜像') {
             steps {
                 script {
